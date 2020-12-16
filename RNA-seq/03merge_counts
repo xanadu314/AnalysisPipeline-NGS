@@ -1,0 +1,4 @@
+#!/bin/bash
+awk '{print FILENAME"\t"$0}' *.txt |grep -v -E "#|_ >tmp.txt
+## 把文件名添加到第一列，同时去掉包含#和_的行
+## 本质上是生成了一个长数据
