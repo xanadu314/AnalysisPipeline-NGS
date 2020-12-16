@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+for f in `cat SRAID.txt`; do ~/software/STAR-2.6.0a/source/STAR --genomeDir ./STARIndex \
+    --readFilesCommand zcat $f\_1.fastq.gz $f\_2.fastq.gz \
+    --runThreadN 12 --outFileNamePrefix ./aligned/$f. \
+    --outSAMtype BAM Unsorted; done
+
+for f in `cat SRAID.txt` ;do samtools sort -O bam -o ${f}".sorted.bam $f".bam"
+ls *1.fastq.gz >1
+ls *2.fastq.gz >2
+paste 1 2 > config
+while read R1 R2
+do
+    featureCounts -F GTF -T $threads -p -t CDS -g $geneID -a $gtf -o ${R1:0:10}_featureCounts.txt ${R1:0:10}.sort.bam
+done < config
