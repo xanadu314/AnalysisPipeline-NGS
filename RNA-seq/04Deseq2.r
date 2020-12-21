@@ -12,9 +12,9 @@ count_data<-expr[,2:5]
 ###把第一列设为行名
 row.names(count_data)<-expr[,1]
 ###构建DESeq2表达矩阵
-condition<-factor(c("trt","trt","untrt","untrt"),levels=c("trt","untrt")#处理组放前面
+condition<-factor(c("trt","trt","untrt","untrt"),levels=c("trt","untrt"))#处理组放前面
 col_data<-data.frame(row.names=colnames(count_data),condition)
-dds<-DESeqDataSetFromMatrix(countData=count_data,colData=coldata,design=~condition)
+dds<-DESeqDataSetFromMatrix(countData=count_data,colData=col_data,design=~condition)
 dds_filter<-dds[rowSums(counts(dds))>1,]#样本基因表达量之和大于1
 dds_out<-DESeq(dds_filter)
 res<-results(dds_out)
